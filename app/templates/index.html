@@ -52,7 +52,7 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       padding: 32px 40px 24px 40px;
       margin-top: 10px;
-      width: 340px;
+      width: 420px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -71,7 +71,7 @@
       margin-top: 12px;
       display: block;
     }
-    input[type="text"], input[type="number"], select {
+    input[type="text"], input[type="number"], input[type="date"], select {
       width: 100%;
       padding: 10px;
       border: 2px solid #b3e5fc;
@@ -81,7 +81,7 @@
       background: #f1f8e9;
       transition: border 0.2s;
     }
-    input[type="text"]:focus, input[type="number"]:focus, select:focus {
+    input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus {
       border: 2px solid #1976d2;
       outline: none;
     }
@@ -134,11 +134,27 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.07);
       animation: appear 0.7s;
     }
+    .user-info {
+      margin-bottom: 10px;
+      color: #1976d2;
+      font-size: 1.1em;
+      text-align: right;
+      width: 100%;
+    }
+    .logout-link {
+      color: #d32f2f;
+      font-weight: bold;
+      margin-left: 10px;
+      text-decoration: none;
+    }
+    .logout-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="robot">
-    <!-- Robot Memito (Eva-style, SVG) -->
+    <!-- Robot Jhair (SVG) -->
     <svg width="80" height="90" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="40" cy="50" rx="30" ry="35" fill="#e3f2fd"/>
       <ellipse cx="40" cy="38" rx="24" ry="28" fill="#fff"/>
@@ -151,36 +167,70 @@
     <div class="bubble" id="memito-bubble">¡Hola! Soy Jhair 🤖<br>¡Registra a tu postulante y aprende jugando!</div>
   </div>
   <div class="form-container">
+    <div class="user-info">
+      Usuario: <b>{{ user }}</b> | <a href="/logout" class="logout-link">Cerrar sesión</a>
+    </div>
     <h1>¡Registra tu Postulante!</h1>
-    <div id="error-message" class="error-message" style="display:none;"></div>
-    <div id="success-message" class="success-message" style="display:none;"></div>
     <form id="postulante-form" method="POST" autocomplete="off">
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" name="nombre" required autocomplete="off">
-      <label for="edad">Edad:</label>
-      <input type="number" id="edad" name="edad" min="1" max="99" required autocomplete="off">
-      <label for="genero">Género:</label>
-      <select id="genero" name="genero" required>
+      <label for="IDHASH">IDHASH:</label>
+      <input type="text" id="IDHASH" name="IDHASH" required>
+      <label for="COLEGIO">Colegio:</label>
+      <input type="text" id="COLEGIO" name="COLEGIO" required>
+      <label for="COLEGIO_DEPA">Colegio - Departamento:</label>
+      <input type="text" id="COLEGIO_DEPA" name="COLEGIO_DEPA" required>
+      <label for="COLEGIO_PROV">Colegio - Provincia:</label>
+      <input type="text" id="COLEGIO_PROV" name="COLEGIO_PROV" required>
+      <label for="COLEGIO_DIST">Colegio - Distrito:</label>
+      <input type="text" id="COLEGIO_DIST" name="COLEGIO_DIST" required>
+      <label for="COLEGIO_PAIS">Colegio - País:</label>
+      <input type="text" id="COLEGIO_PAIS" name="COLEGIO_PAIS" required>
+      <label for="COLEGIO_ANIO_EGRESO">Año de egreso del colegio:</label>
+      <input type="number" id="COLEGIO_ANIO_EGRESO" name="COLEGIO_ANIO_EGRESO" min="1900" max="2100" required>
+      <label for="ESPECIALIDAD">Especialidad:</label>
+      <input type="text" id="ESPECIALIDAD" name="ESPECIALIDAD" required>
+      <label for="ANIO_POSTULA">Año de postulación:</label>
+      <input type="number" id="ANIO_POSTULA" name="ANIO_POSTULA" min="1900" max="2100" required>
+      <label for="CICLO_POSTULA">Ciclo de postulación:</label>
+      <input type="text" id="CICLO_POSTULA" name="CICLO_POSTULA" required>
+      <label for="DOMICILIO_DEPA">Domicilio - Departamento:</label>
+      <input type="text" id="DOMICILIO_DEPA" name="DOMICILIO_DEPA" required>
+      <label for="DOMICILIO_PROV">Domicilio - Provincia:</label>
+      <input type="text" id="DOMICILIO_PROV" name="DOMICILIO_PROV" required>
+      <label for="DOMICILIO_DIST">Domicilio - Distrito:</label>
+      <input type="text" id="DOMICILIO_DIST" name="DOMICILIO_DIST" required>
+      <label for="ANIO_NACIMIENTO">Año de nacimiento:</label>
+      <input type="number" id="ANIO_NACIMIENTO" name="ANIO_NACIMIENTO" min="1900" max="2100" required>
+      <label for="NACIMIENTO_PAIS">País de nacimiento:</label>
+      <input type="text" id="NACIMIENTO_PAIS" name="NACIMIENTO_PAIS" required>
+      <label for="NACIMIENTO_DEPA">Departamento de nacimiento:</label>
+      <input type="text" id="NACIMIENTO_DEPA" name="NACIMIENTO_DEPA" required>
+      <label for="NACIMIENTO_PROV">Provincia de nacimiento:</label>
+      <input type="text" id="NACIMIENTO_PROV" name="NACIMIENTO_PROV" required>
+      <label for="NACIMIENTO_DIST">Distrito de nacimiento:</label>
+      <input type="text" id="NACIMIENTO_DIST" name="NACIMIENTO_DIST" required>
+      <label for="SEXO">Sexo:</label>
+      <select id="SEXO" name="SEXO" required>
         <option value="">Selecciona una opción</option>
         <option value="Masculino">Masculino</option>
         <option value="Femenino">Femenino</option>
         <option value="Otro">Otro</option>
       </select>
-      <label for="carrera">Carrera:</label>
-      <select id="carrera" name="carrera" required>
-        <option value="">Selecciona una carrera</option>
-        {% for carrera in carreras %}
-        <option value="{{ carrera }}">{{ carrera }}</option>
-        {% endfor %}
-      </select>
+      <label for="CALIF_FINAL">Calificación final:</label>
+      <input type="text" id="CALIF_FINAL" name="CALIF_FINAL" required>
+      <label for="INGRESO">Ingreso:</label>
+      <input type="text" id="INGRESO" name="INGRESO" required>
+      <label for="MODALIDAD">Modalidad:</label>
+      <input type="text" id="MODALIDAD" name="MODALIDAD" required>
+      <label for="FECHA_CORTE">Fecha de corte:</label>
+      <input type="text" id="FECHA_CORTE" name="FECHA_CORTE" required>
       <button class="btn-registrar" type="submit">🚀 Registrar</button>
     </form>
   </div>
   <div class="footer">
-    <p>🤖 Memito, tu robot amigo, te ayuda a registrar postulantes.<br>¡Aprender es divertido!</p>
+    <p>🤖 Jhair, tu robot amigo, te ayuda a registrar postulantes.<br>¡Aprender es divertido!</p>
   </div>
   <script>
-    // Animación de parpadeo de Memito
+    // Animación de parpadeo de Jhair
     setInterval(function() {
       const eye = document.getElementById('eye');
       if (eye) {
@@ -188,20 +238,17 @@
         setTimeout(() => eye.setAttribute('ry', '12'), 180);
       }
     }, 3500);
-
     // Mensajes motivadores aleatorios
     const mensajes = [
       '¡Tú puedes lograrlo! 💡',
-      '¡Registrar es divertido con Memito!',
+      '¡Registrar es divertido con Jhair!',
       '¡Sigue aprendiendo y creciendo! 🌱',
       '¡Eres un genio, sigue así! ⭐',
       '¡Cada registro es una aventura nueva! 🚀',
-      '¡Memito está orgulloso de ti! 🤖',
+      '¡Jhair está orgulloso de ti! 🤖',
       '¡Vamos por más postulantes!',
       '¡La educación es el camino al éxito! 📚'
     ];
-
-    // Cambia el mensaje de la burbuja cada 5 segundos
     setInterval(function() {
       const bubble = document.getElementById('memito-bubble');
       if (bubble) {
@@ -209,39 +256,6 @@
         bubble.innerHTML = mensajes[idx];
       }
     }, 5000);
-
-    // Validación visual de campos
-    document.getElementById('postulante-form').addEventListener('submit', function(e) {
-      const nombre = document.getElementById('nombre').value.trim();
-      const edad = document.getElementById('edad').value.trim();
-      const genero = document.getElementById('genero').value;
-      const carrera = document.getElementById('carrera').value.trim();
-      const errorDiv = document.getElementById('error-message');
-      errorDiv.style.display = 'none';
-      let error = '';
-      if (!nombre) error = 'Por favor, ingresa el nombre.';
-      else if (!edad) error = 'Por favor, ingresa la edad.';
-      else if (!genero) error = 'Por favor, selecciona el género.';
-      else if (!carrera) error = 'Por favor, ingresa la carrera.';
-      if (error) {
-        e.preventDefault();
-        errorDiv.innerText = error;
-        errorDiv.style.display = 'block';
-        return false;
-      }
-    });
-
-    // Mostrar mensaje de éxito personalizado si el registro fue exitoso
-    document.getElementById('postulante-form').addEventListener('submit', function(e) {
-      setTimeout(function() {
-        const nombre = document.getElementById('nombre').value;
-        const success = document.getElementById('success-message');
-        if (nombre && success) {
-          success.innerHTML = `🎉 ¡Bien hecho, ${nombre}!<br>Memito está feliz de registrar tu postulante.`;
-          success.style.display = 'block';
-        }
-      }, 100);
-    });
   </script>
 </body>
 </html>

@@ -1,20 +1,14 @@
 import pymongo
-import json
-from cryptography.fernet import Fernet
 import os
 
-# Clave en variable de entorno (ej. desde .env o Docker)
-key = os.environ.get("SECRET_KEY").encode()
-fernet = Fernet(key)
-
-# Leer y desencriptar credenciales
-with open("etl/config.enc.json", "rb") as f:
-    encrypted = f.read()
-config = json.loads(fernet.decrypt(encrypted).decode())
+# Obtén la URI desde la variable de entorno
+mongo_uri = os.environ.get("MONGO_URI")
+if not mongo_uri:
+    raise Exception("La variable de entorno MONGO_URI no está definida. Por favor, configúrala antes de ejecutar el ETL.")
 
 try:
     # Conexión a MongoDB Atlas
-    client = pymongo.MongoClient(config["MONGO_URI"])
+    client = pymongo.MongoClient(mongo_uri)
     oltp = client["oltp_postulantes"]["postulantes"]
     olap = client["olap_postulantes"]["analytics"]
     print("✅ Conectado a MongoDB Atlas para ETL")

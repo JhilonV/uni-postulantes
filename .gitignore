@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Entornos virtuales
+venv/
+.env
+
+# Archivos de configuración sensibles
+etl/config.enc.json
+*.key
+
+# Archivos temporales
+*.log
+.DS_Store
+Thumbs.db
+
+# Power BI y Office
+*.pbix
+*.pbip
+*.pptx
+*.docx 

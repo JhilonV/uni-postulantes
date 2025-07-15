@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lista de Postulantes</title>
+  <meta charset="UTF-8">
+  <style>
+    body { background: linear-gradient(120deg, #e0f7fa 0%, #fffde7 100%); font-family: 'Comic Sans MS', cursive; }
+    .tabla-postulantes { margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); padding: 24px; max-width: 1200px; }
+    h2 { color: #1976d2; text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 18px; }
+    th, td { padding: 8px 6px; text-align: center; border-bottom: 1px solid #b3e5fc; font-size: 0.95em; }
+    th { background: #b3e5fc; color: #263238; font-size: 1em; }
+    tr:last-child td { border-bottom: none; }
+    .volver { display: inline-block; margin-top: 18px; background: linear-gradient(90deg, #ffd600 0%, #64b5f6 100%); color: #263238; font-size: 1.1em; font-weight: bold; border: none; border-radius: 16px; padding: 10px 28px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.10); transition: background 0.3s, transform 0.2s; }
+    .volver:hover { background: linear-gradient(90deg, #64b5f6 0%, #ffd600 100%); transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <div class="tabla-postulantes">
+    <h2>Lista de Postulantes Registrados</h2>
+    <table>
+      <tr>
+        <th>IDHASH</th><th>COLEGIO</th><th>COLEGIO_DEPA</th><th>COLEGIO_PROV</th><th>COLEGIO_DIST</th><th>COLEGIO_PAIS</th><th>COLEGIO_ANIO_EGRESO</th><th>ESPECIALIDAD</th><th>ANIO_POSTULA</th><th>CICLO_POSTULA</th><th>DOMICILIO_DEPA</th><th>DOMICILIO_PROV</th><th>DOMICILIO_DIST</th><th>ANIO_NACIMIENTO</th><th>NACIMIENTO_PAIS</th><th>NACIMIENTO_DEPA</th><th>NACIMIENTO_PROV</th><th>NACIMIENTO_DIST</th><th>SEXO</th><th>CALIF_FINAL</th><th>INGRESO</th><th>MODALIDAD</th><th>FECHA_CORTE</th>
+      </tr>
+      {% for p in postulantes %}
+      <tr>
+        <td>{{ p.get('IDHASH','') }}</td>
+        <td>{{ p.get('COLEGIO','') }}</td>
+        <td>{{ p.get('COLEGIO_DEPA','') }}</td>
+        <td>{{ p.get('COLEGIO_PROV','') }}</td>
+        <td>{{ p.get('COLEGIO_DIST','') }}</td>
+        <td>{{ p.get('COLEGIO_PAIS','') }}</td>
+        <td>{{ p.get('COLEGIO_ANIO_EGRESO','') }}</td>
+        <td>{{ p.get('ESPECIALIDAD','') }}</td>
+        <td>{{ p.get('ANIO_POSTULA','') }}</td>
+        <td>{{ p.get('CICLO_POSTULA','') }}</td>
+        <td>{{ p.get('DOMICILIO_DEPA','') }}</td>
+        <td>{{ p.get('DOMICILIO_PROV','') }}</td>
+        <td>{{ p.get('DOMICILIO_DIST','') }}</td>
+        <td>{{ p.get('ANIO_NACIMIENTO','') }}</td>
+        <td>{{ p.get('NACIMIENTO_PAIS','') }}</td>
+        <td>{{ p.get('NACIMIENTO_DEPA','') }}</td>
+        <td>{{ p.get('NACIMIENTO_PROV','') }}</td>
+        <td>{{ p.get('NACIMIENTO_DIST','') }}</td>
+        <td>{{ p.get('SEXO','') }}</td>
+        <td>{{ p.get('CALIF_FINAL','') }}</td>
+        <td>{{ p.get('INGRESO','') }}</td>
+        <td>{{ p.get('MODALIDAD','') }}</td>
+        <td>{{ p.get('FECHA_CORTE','') }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <a class="volver" href="/">Registrar otro</a>
+    <a class="volver" href="/logout" style="margin-left: 10px;">Cerrar sesión</a>
+  </div>
+</body>
+</html> 

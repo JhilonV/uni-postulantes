@@ -1,5 +1,6 @@
 import os
-from flask import Flask, request, render_template, Markup, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session
+from markupsafe import Markup
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps

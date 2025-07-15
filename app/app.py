@@ -1,18 +1,24 @@
+import os
 from flask import Flask, request, render_template, Markup
 from pymongo import MongoClient
 
 app = Flask(__name__)
 app.debug = True  # Activa modo debug de Flask
 
-# Conexión directa a MongoDB Atlas (OLTP)
-try:
-    client = MongoClient("mongodb+srv://uni_postulante_user:jhairseguro14@clusterpostulantes.pytcwgu.mongodb.net/?retryWrites=true&w=majority&appName=clusterPostulantes")
-    db = client["oltp_postulantes"]
-    collection = db["postulantes"]
-    print("✅ Conectado correctamente a MongoDB Atlas")
-except Exception as e:
-    print(f"❌ Error al conectar a MongoDB: {e}")
+# Obtén la URI desde la variable de entorno
+MONGO_URI = os.environ.get("MONGO_URI")
+if not MONGO_URI:
+    print("❌ Error: Debes definir la variable de entorno MONGO_URI con tu URI de conexión a MongoDB.")
     collection = None
+else:
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client["oltp_postulantes"]
+        collection = db["postulantes"]
+        print("✅ Conectado correctamente a MongoDB Atlas")
+    except Exception as e:
+        print(f"❌ Error al conectar a MongoDB: {e}")
+        collection = None
 
 @app.route("/", methods=["GET", "POST"])
 def index():

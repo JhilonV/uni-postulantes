@@ -8,6 +8,7 @@ Registrar postulantes a la UNI, migrar los datos a un modelo analítico (OLAP) y
 > **Nota importante para el profesor:**
 > - **Cluster Flex:** Por limitación de la API de MongoDB Atlas, el cluster gratuito Flex debe crearse manualmente desde la consola web. El resto de la infraestructura (proyecto, usuario, whitelist) se gestiona como código (IaC) con Terraform.
 > - **MongoDB es NoSQL:** No utiliza archivos SQL, tablas, constraints ni sinónimos. En su lugar, se crean colecciones e índices usando comandos de MongoDB, documentados en `infra/mongodb_setup.md`.
+> - **Seguridad:** La URI de conexión a MongoDB **no debe subirse al repositorio**. Usa la variable de entorno `MONGO_URI` para ejecutar la app y el ETL.
 
 ---
 
@@ -41,14 +42,28 @@ Registrar postulantes a la UNI, migrar los datos a un modelo analítico (OLAP) y
 ## Instalación y ejecución
 1. Clona el repositorio:
    ```
-   git clone https://github.com/tuusuario/uni-postulantes.git
+   git clone https://github.com/JhilonV/uni-postulantes.git
    cd uni-postulantes
    ```
 2. Instala dependencias:
    ```
    pip install flask pymongo cryptography
    ```
-3. Ejecuta la app Flask:
+3. Configura la variable de entorno `MONGO_URI` con tu URI de conexión a MongoDB Atlas:
+   - En Windows CMD:
+     ```
+     set MONGO_URI=mongodb+srv://USUARIO:CONTRASEÑA@clusterurl.mongodb.net/?retryWrites=true&w=majority&appName=clusterPostulantes
+     ```
+   - En PowerShell:
+     ```
+     $env:MONGO_URI="mongodb+srv://USUARIO:CONTRASEÑA@clusterurl.mongodb.net/?retryWrites=true&w=majority&appName=clusterPostulantes"
+     ```
+   - En Linux/Mac:
+     ```
+     export MONGO_URI="mongodb+srv://USUARIO:CONTRASEÑA@clusterurl.mongodb.net/?retryWrites=true&w=majority&appName=clusterPostulantes"
+     ```
+
+4. Ejecuta la app Flask:
    ```
    cd app
    python app.py
@@ -56,12 +71,13 @@ Registrar postulantes a la UNI, migrar los datos a un modelo analítico (OLAP) y
    Abre [http://127.0.0.1:5000](http://127.0.0.1:5000) en tu navegador.
 
 ## Proceso ETL
-1. Configura la clave y credenciales en `etl/config.enc.json` (ver `encrypt_config.py`).
-2. Ejecuta el ETL en Docker:
+1. Configura la clave y credenciales en `etl/config.enc.json` (ver `etl/config.example.json`).
+2. Antes de ejecutar el ETL, define la variable de entorno `MONGO_URI` como arriba.
+3. Ejecuta el ETL en Docker:
    ```
    cd etl
    docker build -t etl-postulantes .
-   docker run --rm -e SECRET_KEY="<tu_clave>" etl-postulantes
+   docker run --rm -e SECRET_KEY="<tu_clave>" -e MONGO_URI="mongodb+srv://USUARIO:CONTRASEÑA@clusterurl.mongodb.net/?retryWrites=true&w=majority&appName=clusterPostulantes" etl-postulantes
    ```
    Los datos se migrarán de `oltp_postulantes.postulantes` a `olap_postulantes.analytics`.
 
@@ -77,14 +93,14 @@ Registrar postulantes a la UNI, migrar los datos a un modelo analítico (OLAP) y
 
 1. Clona el repositorio:
    ```
-   git clone https://github.com/TU_USUARIO/TU_REPO.git
-   cd TU_REPO
+   git clone https://github.com/JhilonV/uni-postulantes.git
+   cd uni-postulantes
    ```
 2. Instala dependencias:
    ```
    pip install flask pymongo cryptography
    ```
-3. Configura las credenciales y la clave secreta (SECRET_KEY) para desencriptar el archivo `etl/config.enc.json`.
+3. Configura la variable de entorno `MONGO_URI` con tu URI de conexión a MongoDB Atlas (como se explicó arriba).
 4. Ejecuta la app Flask:
    ```
    cd app
@@ -99,7 +115,7 @@ Registrar postulantes a la UNI, migrar los datos a un modelo analítico (OLAP) y
    o con Docker:
    ```
    docker build -t etl-postulantes .
-   docker run --rm -e SECRET_KEY="tu_clave" etl-postulantes
+   docker run --rm -e SECRET_KEY="tu_clave" -e MONGO_URI="mongodb+srv://USUARIO:CONTRASEÑA@clusterurl.mongodb.net/?retryWrites=true&w=majority&appName=clusterPostulantes" etl-postulantes
    ```
 6. Abre Power BI Desktop y abre el archivo PBIP. Conecta a MongoDB Atlas usando el usuario y contraseña no admin.
 

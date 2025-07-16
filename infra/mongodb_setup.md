@@ -19,6 +19,28 @@ if (!db.getCollectionNames().includes('analytics')) {
 }
 ```
 
+## 1.1. Agregar validación de esquema (constraint) a la colección 'postulantes'
+
+```js
+use oltp_postulantes
+// Agregar validación JSON Schema a la colección 'postulantes'
+db.runCommand({
+  collMod: "postulantes",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["nombre", "email", "edad"],
+      properties: {
+        nombre: { bsonType: "string", description: "Debe ser un string y es requerido" },
+        email: { bsonType: "string", pattern: "^.+@.+\\..+$", description: "Debe ser un email válido y es requerido" },
+        edad: { bsonType: "int", minimum: 16, maximum: 99, description: "Debe ser un entero entre 16 y 99" }
+      }
+    }
+  },
+  validationLevel: "strict"
+})
+```
+
 ## 2. Crear índices recomendados
 
 ```js
@@ -66,3 +88,4 @@ db.createUser({
 ## 5. Referencias
 - [MongoDB Atlas Docs: Database Users](https://www.mongodb.com/docs/atlas/security-add-mongodb-users/)
 - [MongoDB createUser](https://www.mongodb.com/docs/manual/reference/method/db.createUser/)
+- [MongoDB JSON Schema Validation](https://www.mongodb.com/docs/manual/core/schema-validation/)

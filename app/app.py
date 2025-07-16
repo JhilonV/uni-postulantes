@@ -10,6 +10,10 @@ app.secret_key = 'supersecretkey_jhair'  # Cambia esto en producción
 app.debug = True
 
 # Obtén la URI desde la variable de entorno
+# --- INICIO: Configuración temporal para pruebas locales ---
+os.environ["MONGO_URI"] = "mongodb+srv://uni_postulante_user:jhairsiempreesseguro@clusterpostulantes.pytcwgu.mongodb.net/?retryWrites=true&w=majority&appName=clusterPostulantes"
+# Quita la línea anterior antes de subir a GitHub o producción
+# --- FIN: Configuración temporal ---
 MONGO_URI = os.environ.get("MONGO_URI")
 if not MONGO_URI:
     raise Exception("La variable de entorno MONGO_URI no está definida. Por favor, configúrala antes de ejecutar la app.")

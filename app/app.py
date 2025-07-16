@@ -119,5 +119,5 @@ def ver_postulantes():
     return render_template("postulantes.html", postulantes=lista)
 
 if __name__ == "__main__":
-    print("🚀 Iniciando aplicación Flask en http://127.0.0.1:5000")
-    app.run(debug=True, port=5000)
+    print("🚀 Iniciando aplicación Flask en http://0.0.0.0:5000")
+    app.run(debug=True, host="0.0.0.0", port=5000)

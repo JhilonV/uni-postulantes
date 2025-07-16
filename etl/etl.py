@@ -1,21 +1,10 @@
 import pymongo
 import os
-import json
-from cryptography.fernet import Fernet
 
-# Desencriptar configuración
-SECRET_KEY = os.environ.get("SECRET_KEY")
-if not SECRET_KEY:
-    raise Exception("La variable de entorno SECRET_KEY no está definida. Por favor, configúrala antes de ejecutar el ETL.")
-
-with open("etl/config.enc.json", "rb") as f:
-    encrypted = f.read()
-fernet = Fernet(SECRET_KEY.encode() if isinstance(SECRET_KEY, str) else SECRET_KEY)
-config = json.loads(fernet.decrypt(encrypted).decode())
-
-mongo_uri = config.get("MONGO_URI")
+# Obtén la URI desde la variable de entorno
+mongo_uri = os.environ.get("MONGO_URI")
 if not mongo_uri:
-    raise Exception("No se encontró MONGO_URI en la configuración desencriptada.")
+    raise Exception("La variable de entorno MONGO_URI no está definida. Por favor, configúrala antes de ejecutar el ETL.")
 
 try:
     # Conexión a MongoDB Atlas
